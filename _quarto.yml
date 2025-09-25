@@ -4,12 +4,19 @@ project:
 
 
 website:
-  title: "kminson.github.io"
+  title: "Minsong Kim's Project 1"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd
+        text: About
+      - text: Data Viz
+        menu: 
+          - href: tidytue1.qmd
+            text: Pokemon
+          - href: tidytue2.qmd
+            text: Wealth Inequality After Taxes
 
 format:
   html:

@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Minsong Kim">
+<meta name="dcterms.date" content="2025-09-24">
+<meta name="description" content="Analysis of Pokemon data from TidyTuesday">
 
-<title>My About Page? – Minsong Kim’s Project 1</title>
+<title>Pokemon – Minsong Kim’s Project 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -129,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
+    <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -166,14 +169,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">My About Page?</h1>
+<h1 class="title">Pokemon</h1>
 </div>
 
+<div>
+  <div class="description">
+    <p>Analysis of Pokemon data from TidyTuesday</p>
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Minsong Kim </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 24, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -183,15 +203,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>So, uh when I was reading the instructions for Project 1, I didn’t quite understand if I needed just either a Home or an About page, or if I needed both. Thus, I decided to do both just to make sure I don’t get points taken off for silly things. The only silly things I like is the ones that make me laugh and don’t bring down my GPA. Anyways, I already put a lot of basic information about myself on the Home page, so I don’t really know what to put on here. How about a fun fact? This year, 2025, is a perfect sum of the first ten cubes!<br>
-</p>
+<p><br>
+Every pokemon has a list of base stats that correspond to their abilities. A pokemon with a base speed stat of 10 will be faster than a pokemon with a base speed state of 5. Base stat totals are one way to roughly measure a pokemon’s total power level, by adding up the stat totals across all their stats. Generally, if a pokemon with a higher base stat total will be stronger than a pokemon with a lower one. A pokemon’s egg group also classifies what kind of pokemon it is. A dragon egg group pokemon will be pokemon that is dragon-like in some way, while a flying egg group pokemon might be a bird of some sort. I also created another measurement called size index, which takes a pokemon’s height and weight, and multiplies them together to create a unit of measurement that measures both the size and the density of a pokemon roughly. I then plotted every pokemon by their size index versus their base stat totals to see if there was a correlational relationship between the two. I also colored each pokemon by their primary egg group and created a regression line for each egg group so we can see a pattern for each individual egg group and compare them with one another.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">3</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">4</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">5</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">6</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">7</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">8</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="dv">9</span><span class="sc">^</span><span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2025</code></pre>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pokemon_df <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bst =</span> hp <span class="sc">+</span> attack <span class="sc">+</span> defense <span class="sc">+</span> special_attack <span class="sc">+</span> special_defense <span class="sc">+</span> speed) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">size_index =</span> height <span class="sc">*</span> weight)<span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> size_index, <span class="at">y =</span> bst, <span class="at">color =</span> egg_group_1)) <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.0</span>) <span class="sc">+</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> comma) <span class="sc">+</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> <span class="st">"Size Index (Height * Weight)"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="st">"Base Stat Total"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">"Size Index vs. Base Stat Total"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"Egg Group"</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">40</span>),      </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">40</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">30</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tidytue1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="1920"></p>
+</figure>
 </div>
 </div>
-<p>Yes, I’m counting 0 as one of the first ten cubes. Sue me. I think the phrase “first ten cubes” is a lot cooler than “first nine cubes”. Maybe in 3025 I’ll use this fun fact again with the “first ten cubes” again, but this time with 10 instead of 0.</p>
+</div>
+<p>Credit:<br>
+TidyTuesday Page:<br>
+<a href="https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-04-01" class="uri">https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-04-01</a><br>
+Dataset Original Source:<br>
+<a href="https://github.com/williamorim/pokemon" class="uri">https://github.com/williamorim/pokemon</a><br>
+Curated by Frank Hull:<br>
+<a href="https://github.com/frankiethull" class="uri">https://github.com/frankiethull</a></p>
 
 
 

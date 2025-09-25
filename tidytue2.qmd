@@ -1,0 +1,107 @@
+---
+title: "Wealth Inequality After Taxes"
+description: |
+  Analysis of Wealth Inequality data from TidyTuesday
+author: Minsong Kim
+date: September 24, 2025
+format: 
+  html:
+    code-fold: true
+    code-summary: "Code"
+---
+
+```{r}
+#| include: false
+tuesdata <- tidytuesdayR::tt_load(2025, week = 31)
+
+income_inequality_processed <- tuesdata$income_inequality_processed
+income_inequality_raw <- tuesdata$income_inequality_raw
+```
+
+```{r}
+#| include: false
+# Clean data *and* sample instructions for use in R provided by Our World in
+# Data via https://ourworldindata.org/income-inequality-before-and-after-taxes.
+# Minimal cleaning applied.
+
+library(tidyverse)
+library(jsonlite)
+
+income_inequality_raw <- readr::read_csv(
+  "https://ourworldindata.org/grapher/inequality-of-incomes-before-and-after-taxes-and-transfers-scatter.csv?v=1&csvType=full&useColumnShortNames=true"
+) |>
+  dplyr::mutate(
+    Year = as.integer(Year)
+  )
+
+income_inequality_processed <- readr::read_csv(
+  "https://ourworldindata.org/grapher/gini-coefficient-before-and-after-tax-lis.csv?v=1&csvType=full&useColumnShortNames=true"
+) |>
+  dplyr::mutate(
+    Year = as.integer(Year)
+  )
+
+# Download metadata for use in construction of data dictionaries.
+metadata_raw <- jsonlite::fromJSON(
+  "https://ourworldindata.org/grapher/inequality-of-incomes-before-and-after-taxes-and-transfers-scatter.metadata.json?v=1&csvType=full&useColumnShortNames=true"
+)
+
+metadata_processed <- jsonlite::fromJSON(
+  "https://ourworldindata.org/grapher/gini-coefficient-before-and-after-tax-lis.metadata.json?v=1&csvType=full&useColumnShortNames=true"
+)
+
+```
+
+The visual below shows the change in Gini Index across selected countries after taxes and government benefits over multiple years. The change was calculated by subtracting the post-tax Gini Index from the pre-tax Gini Index. Since a higher value of Gini Index indicates a higher level of wealth inequality, a positive change means a lower level of wealth inequality post-taxes and benefits.
+
+```{r}
+#| message: false
+#| warning: false
+#| fig-width: 25
+income_inequality_processed |>
+  mutate(gini_change = gini_mi_eq - gini_dhi_eq) |>
+  filter(Code %in% c("USA", "BEL", "LUX", "ISL")) |>
+  group_by(Entity) |>
+  ggplot(aes(x = Year, y = gini_change)) +
+    geom_bar(stat = "identity") +
+    facet_grid(~ Entity, scales = "free_y") +
+    labs(
+      y = "Change in Gini Index",
+      x = "Year",
+      Title = "Yearly Gini Index Change Across Selected Countries"
+    ) +
+    theme(
+    text = element_text(size = 40),      
+    axis.title = element_text(size = 40),
+    axis.text = element_text(size = 20)
+  ) 
+
+```
+
+Credit:\
+Data Processed By:
+
+<https://ourworldindata.org>
+
+Sources:
+
+<https://www.lisdatacenter.org/our-data/lis-database/>
+
+<https://www.oecd.org/en/data/datasets/income-and-wealth-distribution-database.html>
+
+<https://public.yoda.uu.nl/geo/UU01/AEZZIT.html>
+
+<https://www.gapminder.org/data/documentation/gd003/>
+
+<https://population.un.org/wpp/downloads?folder=Standard%20Projections&group=Most%20used>
+
+<https://github.com/open-numbers/ddf--gapminder--systema_globalis>
+
+TidyTuesday Link:
+
+<https://github.com/rfordatascience/tidytuesday/blob/main/data/2025/2025-08-05/readme.md>
+
+Data Curated By:\
+Joe Harmon and the Data Science Learning Community
+
+<https://github.com/jonthegeek>

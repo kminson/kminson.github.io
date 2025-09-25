@@ -1,0 +1,55 @@
+---
+title: "Pokemon"
+description: |
+  Analysis of Pokemon data from TidyTuesday
+author: Minsong Kim
+date: September 24, 2025
+format: 
+  html:
+    code-fold: true
+    code-summary: "Code"
+---
+
+```{r}
+#| include: false
+tuesdata <- tidytuesdayR::tt_load(2025, week = 13)
+pokemon_df <- tuesdata$pokemon_df
+library(tidyverse)
+library(scales)
+```
+
+\
+Every pokemon has a list of base stats that correspond to their abilities. A pokemon with a base speed stat of 10 will be faster than a pokemon with a base speed state of 5. Base stat totals are one way to roughly measure a pokemon's total power level, by adding up the stat totals across all their stats. Generally, if a pokemon with a higher base stat total will be stronger than a pokemon with a lower one. A pokemon's egg group also classifies what kind of pokemon it is. A dragon egg group pokemon will be pokemon that is dragon-like in some way, while a flying egg group pokemon might be a bird of some sort. I also created another measurement called size index, which takes a pokemon's height and weight, and multiplies them together to create a unit of measurement that measures both the size and the density of a pokemon roughly. I then plotted every pokemon by their size index versus their base stat totals to see if there was a correlational relationship between the two. I also colored each pokemon by their primary egg group and created a regression line for each egg group so we can see a pattern for each individual egg group and compare them with one another.
+
+```{r}
+#| message: false
+#| fig-width: 20
+#| fig-height: 10
+pokemon_df |>
+  mutate(bst = hp + attack + defense + special_attack + special_defense + speed) |>
+  mutate(size_index = height * weight)|>
+  
+  ggplot(aes(x = size_index, y = bst, color = egg_group_1)) +
+    geom_point(size = 2.0) +
+    scale_x_log10(labels = comma) +
+    geom_smooth(method = "lm", linewidth = 1.2, se = FALSE) +
+    labs(
+      x = "Size Index (Height * Weight)",
+      y = "Base Stat Total",
+      title = "Size Index vs. Base Stat Total",
+      color = "Egg Group"
+    ) +
+    theme(
+    text = element_text(size = 40),      
+    axis.title = element_text(size = 40),
+    axis.text = element_text(size = 30)
+  )
+```
+
+Credit:\
+TidyTuesday Page: \
+<https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-04-01>\
+Dataset Original Source:\
+<https://github.com/williamorim/pokemon>\
+Curated by Frank Hull:\
+<https://github.com/frankiethull>
