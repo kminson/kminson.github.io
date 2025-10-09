@@ -1,3 +1,133 @@
 ---
-title: "proj2"
+title: "Obama's Tweets"
+description: |
+  Analysis of Obama's tweets from his time as POTUS
+author: Minsong Kim
+date: October 8, 2025
+format: 
+  html:
+    code-fold: true
+    code-summary: "Code"
 ---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(ggplot2)
+obama_tweets <- read.csv("https://raw.githubusercontent.com/kminson/kminson.github.io/refs/heads/main/tweets.csv")
+```
+
+For this project, I've decided to take a look at former President Obama's tweets while he was a president. Twitter is a social media platform. As you might have guessed from the name, its all about being social. Now, how social was Obama when he served as the US president? We'll take a look at his mentioning habits.
+
+```{r}
+#| message: false
+detect_username <- "(?<=@)\\w{1,15}"
+obama_tweets <- obama_tweets |>
+  mutate(mentioned_user = str_extract_all(text, detect_username),
+         mentioned_user = 
+           map(mentioned_user, ~if (length(.x) == 0){
+             NA_character_}
+             else .x),
+         has_mention = if_else(str_detect(text, detect_username),
+                               "Yes", "No"), 
+         has_mention = factor(has_mention, levels = c
+                              ("Yes", "No")),
+         excl_count = str_count(text, "!+"),
+         ques_count = str_count(text, "\\?+"),
+         sentence_type = ifelse
+         (excl_count > 0 & ques_count == 0, "Exclamation",
+           ifelse 
+           (ques_count > 0 & excl_count == 0, "Question",
+             ifelse 
+             (excl_count > 0 & ques_count > 0, "Both", "Neither")
+             )
+           ),
+         sentence_type = factor(sentence_type, levels = c
+                                ("Exclamation",
+                                  "Question",
+                                  "Both",
+                                  "Neither"))
+         )
+
+```
+
+```{r}
+#| message: false
+user_proportions <- obama_tweets |>
+  select(mentioned_user) |>
+  unnest(mentioned_user) |>
+  filter(!is.na(mentioned_user)) |>
+  count(mentioned_user) |>
+  mutate(proportion = n / sum(n)) |>
+  filter(!n == 1) |>
+  mutate(mentioned_user = fct_reorder(mentioned_user, proportion))
+
+mention_summary <- obama_tweets |>
+  count(has_mention) |>
+  mutate(proportion = n / sum(n))
+
+style_data <- obama_tweets |>
+  count(sentence_type) |>
+  mutate(proportion = n / sum(n))
+```
+
+```{r}
+#| message: false
+mention_summary |>
+  ggplot(aes(x = has_mention, y = proportion, fill = has_mention)) +
+  geom_col() +
+  labs(
+    title = "Proportion of Obama's tweets that include a mention",
+    x = "Did the tweet include a mention?",
+    y = "Proportion"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+From this table, we can see that President Obama didn't really spend most of his time interacting with other users on Twitter. This includes all sorts of stuff like re tweeting other people's tweets, or replying to tweets, since those things require the user to mention the original tweeter. It does make sense, since he was the President of the United States, so stuff like PR was probably very important to him, and he didn't really have an incentive to engage other users. Still, try to be a bit less anti-social!
+
+```{r}
+#| message: false
+user_proportions |>
+  ggplot(aes(
+    x = proportion, y = mentioned_user, fill = mentioned_user
+    )) +
+  geom_col() +
+  labs(
+    title = "Obama's Most Mentioned Users",
+    x = "Proportion of Total Mentions",
+    y = "Username"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none",)
+```
+
+Lets take a look at who enjoyed President Obama's mentions the most. I filtered out any username that Obama only mentioned once, since it cluttered up the visual and isn't really important to see who Obama likes to interact with. But, man, isn't this too little to be all the users Obama mentioned more than once? In fact, he tends to mention the user @POTUS much more than any other user, including his political ally @HillaryClinton, or @FLOTUS. It makes up nearly 10% of all his mentions! Makes Obama look a little bit like a clout chaser....
+
+```{r}
+#| message: false
+style_data |>
+  ggplot(aes(x = sentence_type, y = proportion, fill = sentence_type)) +
+  geom_col() +
+  labs(
+    title = 
+      "Proportion of Obama's Tweets as Exclamations/Questions",
+    x = "Style of tweet",
+    y = "Proportion"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size = 12)
+    )
+```
+
+Now lets take a look at what kind of style of tweets Obama likes to use. I classified tweets based on whether the tweet included an exclamation mark, a question mark, both, or neither. We can see that most of Obama's tweets use neither of those punctuation marks, but he uses a lot more exclamation marks than question marks. He comes off a little bit like a mansplainer when we take a look at the data like this, especially since he rarely asks questions. Obama, its okay to admit when you don't know something.
+
+Credit:
+
+Data Sourced from:
+
+<https://www.obamalibrary.gov/digital-research-room/archived-white-house-websites-and-social-media>\
+by the National Archives

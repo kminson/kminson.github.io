@@ -17,6 +17,8 @@ website:
             text: Pokemon
           - href: tidytue2.qmd
             text: Wealth Inequality After Taxes
+          - href: proj2.qmd
+            text: Text Analysis of Obama's Tweets
 
 format:
   html:
