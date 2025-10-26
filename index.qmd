@@ -11,6 +11,6 @@ about:
       href: https://github.com/kminson/kminson.github.io
 ---
 
-Hello! My name is Minsong Kim, first of my name, child of Chonghui Pak and Chaepil Kim, hailing from the land of the Republic of Korea. I am a sophomore at Pomona College, and I'm really not quite sure how much information I should put about myself in this bio. So, I'll say that at my heart, I'm no scholar but just a simple lover boy \</3. This is my Project 1 made with delight for my class, Foundations of Data Science, R.\
+Hello! My name is Minsong Kim, first of my name, child of Chonghui Pak and Chaepil Kim, hailing from the land of the Republic of Korea. I am a sophomore at Pomona College, and I'm really not quite sure how much information I should put about myself in this bio. So, I'll say that at my heart, I'm no scholar but just a simple lover boy \</3. This is my website with my projects made with delight for my class, Foundations of Data Science, R.\
 (Pictured above is my friend's fish slippers)\
 \
