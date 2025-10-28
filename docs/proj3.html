@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Minsong Kim">
-<meta name="dcterms.date" content="2025-10-08">
-<meta name="description" content="Analysis of Obama’s tweets from his time as POTUS">
+<meta name="dcterms.date" content="2025-10-27">
+<meta name="description" content="An exploration of the probabilities within the Monty Hall problem through simulations">
 
-<title>Obama’s Tweets – Minsong Kim's Project 1</title>
+<title>Monty Hall Simulation – Minsong Kim’s Project 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -152,6 +152,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./proj2.html">
  <span class="dropdown-text">Text Analysis of Obama’s Tweets</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./proj3.html">
+ <span class="dropdown-text">Monty Hall Simulation</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -173,12 +177,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Obama’s Tweets</h1>
+<h1 class="title">Monty Hall Simulation</h1>
 </div>
 
 <div>
   <div class="description">
-    <p>Analysis of Obama’s tweets from his time as POTUS</p>
+    <p>An exploration of the probabilities within the Monty Hall problem through simulations</p>
   </div>
 </div>
 
@@ -195,7 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 8, 2025</p>
+      <p class="date">October 27, 2025</p>
     </div>
   </div>
   
@@ -207,139 +211,100 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>For this project, I’ve decided to take a look at former President Obama’s tweets while he was a president. Twitter is a social media platform. As you might have guessed from the name, its all about being social. Now, how social was Obama when he served as the US president? We’ll take a look at his mentioning habits.</p>
+<p>On this page, we will be exploring the Monty Hall problem through simulations. The Monty Hall problem is a probability problem that follows as such. Say you are on a game show, where you are given three doors to choose from. One door has a car, which represents winning the game, while the other two have goats, which represents failing the game. You select one door at random. Then, the host reveals one of the doors you didn’t select, revealing a goat, and gives you the choice of either switching to the other door or staying with your initial choice. Should you choose to switch or not? The problem got its name from the TV show it was based off of, whose host’s name was Monty Hall. This problem has a very interesting history, where a female mathematician, by the name of Marilyn Savant, gave an answer and posted it on a newspaper. What followed was thousands of messages and mail telling her she was wrong, many with PhD’s, when she was in fact correct. Now lets see what the answer is!</p>
+<p>First we begin by coding a function called monty_hall that represents the game once. The function has one input that determines if the player chooses to switch or not.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>detect_username <span class="ot">&lt;-</span> <span class="st">"(?&lt;=@)</span><span class="sc">\\</span><span class="st">w{1,15}"</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>obama_tweets <span class="ot">&lt;-</span> obama_tweets <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mentioned_user =</span> <span class="fu">str_extract_all</span>(text, detect_username),</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">mentioned_user =</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">map</span>(mentioned_user, <span class="sc">~</span><span class="cf">if</span> (<span class="fu">length</span>(.x) <span class="sc">==</span> <span class="dv">0</span>){</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>             <span class="cn">NA_character_</span>}</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>             <span class="cf">else</span> .x),</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">has_mention =</span> <span class="fu">if_else</span>(<span class="fu">str_detect</span>(text, detect_username),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Yes"</span>, <span class="st">"No"</span>), </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">has_mention =</span> <span class="fu">factor</span>(has_mention, <span class="at">levels =</span> c</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                              (<span class="st">"Yes"</span>, <span class="st">"No"</span>)),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">excl_count =</span> <span class="fu">str_count</span>(text, <span class="st">"!+"</span>),</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">ques_count =</span> <span class="fu">str_count</span>(text, <span class="st">"</span><span class="sc">\\</span><span class="st">?+"</span>),</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">sentence_type =</span> ifelse</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>         (excl_count <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> ques_count <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"Exclamation"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>           ifelse </span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>           (ques_count <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> excl_count <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"Question"</span>,</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>             ifelse </span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>             (excl_count <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> ques_count <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"Both"</span>, <span class="st">"Neither"</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>             )</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>           ),</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">sentence_type =</span> <span class="fu">factor</span>(sentence_type, <span class="at">levels =</span> c</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                                (<span class="st">"Exclamation"</span>,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Question"</span>,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Both"</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Neither"</span>))</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>monty_hall <span class="ot">&lt;-</span> <span class="cf">function</span>(switch_choice) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  doors <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="co">#A character vector of a, b, c to represent the three doors; a is the prize door</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  first_choice <span class="ot">&lt;-</span> <span class="fu">sample</span>(doors, <span class="dv">1</span>) <span class="co">#Randomly choose our first door</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  reveal <span class="ot">&lt;-</span> <span class="cf">if</span> (first_choice <span class="sc">==</span> <span class="st">"a"</span>) { <span class="co">#Randomly reveal either b or c if a is selected</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(doors[doors <span class="sc">!=</span> <span class="st">"a"</span>], <span class="dv">1</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (first_choice <span class="sc">==</span> <span class="st">"b"</span>) { <span class="co">#Otherwise, reveal the unselected non-prize door</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"c"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"b"</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  doors <span class="ot">&lt;-</span> doors[doors <span class="sc">!=</span> reveal] <span class="co">#Reveal the selected door</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  second_choice <span class="ot">=</span> <span class="cf">if</span> (switch_choice <span class="sc">==</span> <span class="dv">1</span>) { </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    second_choice <span class="ot">=</span> <span class="fu">sample</span>(doors[doors <span class="sc">!=</span> first_choice], <span class="dv">1</span>) <span class="co">#If switch = 1, we switch to the other door</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    second_choice <span class="ot">=</span> first_choice <span class="co">#Otherwise, we stay with our first door</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">=</span> <span class="fu">ifelse</span>(second_choice <span class="sc">==</span> <span class="st">"a"</span>, <span class="co">#If our second choice is a, we win!</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"Success!"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                         <span class="st">"Dud..."</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                  )</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(second_choice, result) <span class="co">#Create a dataframe with a column showing final selected door and results</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>Then we map the function to a numeric vector that spans from 1 to 100,000, effectively running the function 100,000 times. This is our simulation.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>user_proportions <span class="ot">&lt;-</span> obama_tweets <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(mentioned_user) <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest</span>(mentioned_user) <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(mentioned_user)) <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(mentioned_user) <span class="sc">|&gt;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>n <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mentioned_user =</span> <span class="fu">fct_reorder</span>(mentioned_user, proportion))</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>mention_summary <span class="ot">&lt;-</span> obama_tweets <span class="sc">|&gt;</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(has_mention) <span class="sc">|&gt;</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>style_data <span class="ot">&lt;-</span> obama_tweets <span class="sc">|&gt;</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sentence_type) <span class="sc">|&gt;</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="co">#Set the simulation count to 100,000</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>switch_result <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n <span class="sc">|&gt;</span> <span class="co">#Use mapping to simulate the function n times with switching</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">monty_hall</span>(<span class="dv">1</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>switch_summary <span class="ot">&lt;-</span> switch_result <span class="sc">|&gt;</span> <span class="co">#Condense the table of results to proportion of successes and failures</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(result) <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">number =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion =</span> number <span class="sc">/</span> <span class="fu">sum</span>(number))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>noswitch_result <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n <span class="sc">|&gt;</span> <span class="co">#Repeat for no switching</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="sc">~</span> <span class="fu">monty_hall</span>(<span class="dv">0</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>noswitch_summary <span class="ot">&lt;-</span> noswitch_result <span class="sc">|&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(result) <span class="sc">|&gt;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">number2 =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">proportion2 =</span> number2 <span class="sc">/</span> <span class="fu">sum</span>(number2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<p>We’ll take the results of this simulation and work it into a table for plotting, and finally create a visual with our results!</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mention_summary <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> has_mention, <span class="at">y =</span> proportion, <span class="at">fill =</span> has_mention)) <span class="sc">+</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Proportion of Obama's tweets that include a mention"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Did the tweet include a mention?"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Proportion"</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="proj2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>From this table, we can see that President Obama didn’t really spend most of his time interacting with other users on Twitter. This includes all sorts of stuff like re tweeting other people’s tweets, or replying to tweets, since those things require the user to mention the original tweeter. It does make sense, since he was the President of the United States, so stuff like PR was probably very important to him, and he didn’t really have an incentive to engage other users. Still, try to be a bit less anti-social!</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>user_proportions <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> proportion, <span class="at">y =</span> mentioned_user, <span class="at">fill =</span> mentioned_user</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    )) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Obama's Most Mentioned Users"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Proportion of Total Mentions"</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Username"</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>full_summary <span class="ot">&lt;-</span> <span class="fu">full_join</span>(switch_summary, noswitch_summary, <span class="at">by =</span> <span class="st">"result"</span>) <span class="co">#Join the proportion results into one table</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plot_data <span class="ot">&lt;-</span> full_summary <span class="sc">|&gt;</span> <span class="co">#Create a new table for easier plotting</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(result, proportion, proportion2) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"proportion"</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"strategy"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"proportion"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">strategy =</span> <span class="fu">if_else</span>(strategy <span class="sc">==</span> <span class="st">"proportion"</span>, <span class="st">"Switch"</span>, <span class="st">"No Switch"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">result =</span> <span class="fu">fct_relevel</span>(result, <span class="fu">c</span>(<span class="st">"Success!"</span>, <span class="st">"Dud..."</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">strategy =</span> <span class="fu">fct_relevel</span>(strategy, <span class="fu">c</span>(<span class="st">"Switch"</span>, <span class="st">"No Switch"</span>)))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(plot_data, <span class="fu">aes</span>(<span class="at">x =</span> result, <span class="at">y =</span> proportion, <span class="at">fill =</span> strategy)) <span class="sc">+</span> <span class="co">#Plot!</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Monty Hall Simulation Results of 100,000 Runs"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Outcome"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Proportion of Wins"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Strategy"</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="proj2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="proj3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Lets take a look at who enjoyed President Obama’s mentions the most. I filtered out any username that Obama only mentioned once, since it cluttered up the visual and isn’t really important to see who Obama likes to interact with. But, man, isn’t this too little to be all the users Obama mentioned more than once? In fact, he tends to mention the user <span class="citation" data-cites="POTUS">@POTUS</span> much more than any other user, including his political ally <span class="citation" data-cites="HillaryClinton">@HillaryClinton</span>, or <span class="citation" data-cites="FLOTUS">@FLOTUS</span>. It makes up nearly 10% of all his mentions! Makes Obama look a little bit like a clout chaser….</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>style_data <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sentence_type, <span class="at">y =</span> proportion, <span class="at">fill =</span> sentence_type)) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Proportion of Obama's Tweets as Exclamations/Questions"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Style of tweet"</span>,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Proportion"</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="proj2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Now lets take a look at what kind of style of tweets Obama likes to use. I classified tweets based on whether the tweet included an exclamation mark, a question mark, both, or neither. We can see that most of Obama’s tweets use neither of those punctuation marks, but he uses a lot more exclamation marks than question marks. He comes off a little bit like a mansplainer when we take a look at the data like this, especially since he rarely asks questions. Obama, its okay to admit when you don’t know something.</p>
-<p>Credit:</p>
-<p>Data Sourced from:</p>
-<p><a href="https://www.obamalibrary.gov/digital-research-room/archived-white-house-websites-and-social-media" class="uri">https://www.obamalibrary.gov/digital-research-room/archived-white-house-websites-and-social-media</a><br>
-by the National Archives</p>
+<p>As you can see by the table, when the player chooses to switch, they have roughly 2/3rd odds to win, while only have 1/3rd odds to win if they choose not to switch. I was surprised because, even though I knew from previously reading about this problem that it was to the player’s advantage to switch, I had a misunderstanding as to why that was. I believed that by revealing a losing door, the remaining unselected door had 1/2 odds of being the winning door since there were only two doors left, but the initial door only had 1/3rd odds of winning since it was selected while there was still 3 doors. However, the correct logic is that by switching, the unselected door gives the player 2/3rd odds of winning, as it effectively gives the player the “odds” of both the unrevealed unselected door and the revealed unselected door. When Savant wrote her response to all those letters telling her she was wrong, she used this analogy.<br>
+“Suppose there are a million doors, and you pick door #1. Then, the host, who knows what’s behind the door and will always avoid the one with a prize, opens them all except door #777,777. You’d switch to that door pretty fast, wouldn’t you?”</p>
+<p>I like this analogy a lot, because by scaling the problem to the extreme, Savant makes the solution a lot easier to grasp intuitively then it is with the problem’s original setup. There’s actually a whole Wikipedia page on this problem and all the research it spawned. The page has stuff like psychological tendacies why people intuitively grasp the wrong solution, how to mathematically prove the solution of the problem, different variants, etc. It’s all very fascinating stuff.</p>
 
 
 

@@ -19,7 +19,8 @@ website:
             text: Wealth Inequality After Taxes
           - href: proj2.qmd
             text: Text Analysis of Obama's Tweets
-
+          - href: proj3.qmd
+            text: Monty Hall Simulation
 format:
   html:
     theme:
