@@ -1,0 +1,132 @@
+---
+title: "title"
+description: |
+  description
+author: Minsong Kim
+date: November 23, 2025
+format: html
+---
+
+Late Night: 12:00AM - 4:00AM
+Early Morning: 4:00AM - 8:00AM
+Morning: 8:00AM - 12:00PM
+Midday: 12:00PM - 4:00PM
+Afternoon: 4:00PM - 8:00PM
+Evening: 8:00PM - 12:00AM
+
+```{r}
+
+con_traffic <- DBI::dbConnect(
+
+  RMariaDB::MariaDB(),
+
+  dbname = "traffic",
+
+  host = Sys.getenv("TRAFFIC_HOST"),
+
+  user = Sys.getenv("TRAFFIC_USER"),
+
+  password = Sys.getenv("TRAFFIC_PWD")
+
+)
+```
+
+
+```{r}
+DBI::dbListTables(con_traffic)
+```
+
+
+```{sql}
+#| connection: con_traffic
+
+SELECT * FROM wa_statewide_2020_04_01 LIMIT 8
+```
+
+
+```{sql}
+#| connection: con_traffic
+
+DESCRIBE wa_statewide_2020_04_01
+```
+
+```{sql}
+#| connection: con_traffic
+
+SELECT state, time_bin, COUNT(*) AS stops 
+FROM (
+  -- Washington Data
+  SELECT 'WA' AS state,
+    CASE 
+      WHEN HOUR(time) BETWEEN 0 AND 3 THEN 'Late Night'
+      WHEN HOUR(time) BETWEEN 4 AND 7  THEN 'Early Morning'
+      WHEN HOUR(time) BETWEEN 8 AND 11 THEN 'Morning'
+      WHEN HOUR(time) BETWEEN 12 AND 15 THEN 'Midday'
+      WHEN HOUR(time) BETWEEN 16 AND 19 THEN 'Afternoon'
+      WHEN HOUR(time) BETWEEN 20 AND 23 THEN 'Evening'
+      ELSE 'Unknown'
+    END AS time_bin
+  FROM wa_statewide_2020_04_01
+  
+  UNION ALL
+  
+  -- New York Data
+  SELECT 'NY' AS state,
+    CASE 
+      WHEN HOUR(time) BETWEEN 0 AND 3 THEN 'Late Night'
+      WHEN HOUR(time) BETWEEN 4 AND 7  THEN 'Early Morning'
+      WHEN HOUR(time) BETWEEN 8 AND 11 THEN 'Morning'
+      WHEN HOUR(time) BETWEEN 12 AND 15 THEN 'Midday'
+      WHEN HOUR(time) BETWEEN 16 AND 19 THEN 'Afternoon'
+      WHEN HOUR(time) BETWEEN 20 AND 23 THEN 'Evening'
+      ELSE 'Unknown'
+    END AS time_bin
+  FROM ny_statewide_2020_04_01
+  
+  UNION ALL
+  
+  -- Michigan Data
+  SELECT 'MI' AS state,
+    CASE 
+      WHEN HOUR(time) BETWEEN 0 AND 3 THEN 'Late Night'
+      WHEN HOUR(time) BETWEEN 4 AND 7  THEN 'Early Morning'
+      WHEN HOUR(time) BETWEEN 8 AND 11 THEN 'Morning'
+      WHEN HOUR(time) BETWEEN 12 AND 15 THEN 'Midday'
+      WHEN HOUR(time) BETWEEN 16 AND 19 THEN 'Afternoon'
+      WHEN HOUR(time) BETWEEN 20 AND 23 THEN 'Evening'
+      ELSE 'Unknown'
+    END AS time_bin
+  FROM mi_statewide_2020_04_01
+) t
+
+GROUP BY state, time_bin
+ORDER BY state,
+  MIN(
+    CASE time_bin
+      WHEN 'Late Night' THEN 0
+      WHEN 'Early Morning' THEN 1
+      WHEN 'Morning' THEN 2
+      WHEN 'Midday' THEN 3
+      WHEN 'Afternoon' THEN 4
+      WHEN 'Evening' THEN 5
+    END
+)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+DBI::dbDisconnect(con_traffic, shutdown = TRUE)
+```
+
