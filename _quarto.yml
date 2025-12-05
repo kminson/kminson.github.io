@@ -23,6 +23,8 @@ website:
             text: Monty Hall Simulation
           - href: proj4.qmd
             text: Ethical Dilemma in Data Science
+          - href: proj5.qmd
+            text: Exploring/Data Wrangling in SQL
           - href: presentation.qmd
             text: Monty Hall Presentation
 format:
