@@ -137,7 +137,7 @@ ggplot(timeofday_tibble, aes(x = time_bin, y = stops, fill = state)) +
   geom_col(position = "dodge") +
   labs(title = "Traffic stops by time-of-day (counts)",
     x = "Time of Day",
-    y = "Percentage of Stops",
+    y = "Number of Stops",
     fill = "State"
   ) +
   theme_minimal()

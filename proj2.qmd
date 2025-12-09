@@ -21,19 +21,28 @@ For this project, I've decided to take a look at former President Obama's tweets
 
 ```{r}
 #| message: false
-detect_username <- "(?<=@)\\w{1,15}"
+detect_username <- "(?<=@)\\w{1,15}" #Setting the regex to detect
+#usernames that come after @
 obama_tweets <- obama_tweets |>
-  mutate(mentioned_user = str_extract_all(text, detect_username),
+  mutate(
+    #Create a new column listing all mentioned usernames in the
+    #tweet entry
+    mentioned_user = str_extract_all(text, detect_username),
          mentioned_user = 
            map(mentioned_user, ~if (length(.x) == 0){
              NA_character_}
              else .x),
+    #Create a new column whether or not the tweet has a mention
          has_mention = if_else(str_detect(text, detect_username),
                                "Yes", "No"), 
          has_mention = factor(has_mention, levels = c
                               ("Yes", "No")),
+    #Create a column that counts exclamation marks in tweet
          excl_count = str_count(text, "!+"),
+    #Create a column that counts question marks in tweet
          ques_count = str_count(text, "\\?+"),
+    #Create a column that classifies tweet as an
+    #Exclamation, Question, Both, or Neither
          sentence_type = ifelse
          (excl_count > 0 & ques_count == 0, "Exclamation",
            ifelse 
@@ -42,17 +51,20 @@ obama_tweets <- obama_tweets |>
              (excl_count > 0 & ques_count > 0, "Both", "Neither")
              )
            ),
+    #Refactor the sentence_type variable to reorder the possible
+    #values in a way that makes sense
          sentence_type = factor(sentence_type, levels = c
                                 ("Exclamation",
                                   "Question",
                                   "Both",
                                   "Neither"))
          )
-
 ```
 
 ```{r}
 #| message: false
+#Create a new tibble called user_proportions that list every user
+#mentioned by Obama and the number of times mentioned
 user_proportions <- obama_tweets |>
   select(mentioned_user) |>
   unnest(mentioned_user) |>
@@ -62,10 +74,15 @@ user_proportions <- obama_tweets |>
   filter(!n == 1) |>
   mutate(mentioned_user = fct_reorder(mentioned_user, proportion))
 
+#Create a tibble called mention_summary with number of tweets
+#with mentions and tweets without, and the proportion of each
 mention_summary <- obama_tweets |>
   count(has_mention) |>
   mutate(proportion = n / sum(n))
 
+#Create a tibble called style_data with number of tweets for 
+#style of tweet as defined previously, and the proportion of
+#each
 style_data <- obama_tweets |>
   count(sentence_type) |>
   mutate(proportion = n / sum(n))

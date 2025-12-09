@@ -47,9 +47,19 @@ pokemon_df |>
 ```
 
 Credit:\
-TidyTuesday Page:\
-<https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-04-01>\
-Dataset Original Source:\
-<https://github.com/williamorim/pokemon>\
-Curated by Frank Hull:\
+Dataset Original Source:
+
+<https://bulbapedia.bulbagarden.net/wiki/Main_Page>
+
+<https://github.com/phalt/pokeapi>
+
+<https://pokemon-uranium.fandom.com/wiki/Main_Page>
+
+<https://github.com/HybridShivam/Pokemon>
+
+TidyTuesday Page:
+
+<https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-04-01>
+
+Dataset Curated by Frank Hull:\
 <https://github.com/frankiethull>
