@@ -114,6 +114,7 @@ Afterwards, I try two different methods of visualizing the data to see which wou
 
 ```{r}
 #| message: false
+#| fig-alt: "Faceted bar chart showing traffic stop counts by time of day in NY, OH, and WA; in all states, stops peak around morning to midday and are lowest late at night."
 
 timeofday_tibble <- timeofday_tibble |>
   mutate(time_bin = fct_relevel(time_bin, 
@@ -133,6 +134,7 @@ My second attempt is combining all the data into one bar graph, with three entri
 
 ```{r}
 #| message: false
+#| fig-alt: "Grouped bar chart showing traffic stop counts by time of day for NY, OH, and WA; all three states peak in the morning and midday, with WA having the highest counts across most periods."
 ggplot(timeofday_tibble, aes(x = time_bin, y = stops, fill = state)) +
   geom_col(position = "dodge") +
   labs(title = "Traffic stops by time-of-day (counts)",

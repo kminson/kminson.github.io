@@ -1,5 +1,0 @@
----
-title: "proj6"
-format: html
----
-

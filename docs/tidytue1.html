@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Minsong Kim">
-<meta name="dcterms.date" content="2025-09-24">
+<meta name="dcterms.date" content="2025-12-09">
 <meta name="description" content="Analysis of Pokemon data from TidyTuesday">
 
-<title>Pokemon – Minsong Kim’s Project 1</title>
+<title>Pokemon – Minsong Kim’s Projects in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Minsong Kim’s Project 1</span>
+    <span class="navbar-title">Minsong Kim’s Projects in R</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -211,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 24, 2025</p>
+      <p class="date">December 9, 2025</p>
     </div>
   </div>
   
@@ -251,11 +251,12 @@ Every pokemon has a list of base stats that correspond to their abilities. A pok
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="tidytue1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="1920"></p>
+<p><img src="tidytue1_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" alt="Scatterplot of Pokémon size index versus base stat total, with points colored by egg group. Each egg group has its own regression line, showing generally positive relationships between size and base stats." width="1920"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>We can see that a positive relationship between the size index and base stat total exists for every egg group, but the steepness of the relationship changes depending on the egg group. I think on a design level, that makes sense. You want pokemon who are super big to be stronger than a pokemon the size of your hand generally; otherwise the design contradicts the reality of the strength of the pokemon, as we humans expect big things to be proportionally stronger than small things.</p>
 <p>Credit:<br>
 Dataset Original Source:</p>
 <p><a href="https://bulbapedia.bulbagarden.net/wiki/Main_Page" class="uri">https://bulbapedia.bulbagarden.net/wiki/Main_Page</a></p>

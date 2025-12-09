@@ -80,6 +80,9 @@ We'll take the results of this simulation and work it into a table for plotting,
 
 ```{r}
 #| message: false
+#| fig-alt: "Bar chart comparing Monty Hall simulation results: switching wins about two-thirds of the time, while not switching wins about one-third; the opposite proportions appear for losses."
+
+
 full_summary <- full_join(switch_summary, noswitch_summary, by = "result") #Join the proportion results into one table
 
 plot_data <- full_summary |> #Create a new table for easier plotting

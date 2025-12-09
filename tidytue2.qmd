@@ -12,10 +12,13 @@ format:
 
 ```{r}
 #| include: false
+library(purrr)
 tuesdata <- tidytuesdayR::tt_load(2025, week = 31)
 
-income_inequality_processed <- tuesdata$income_inequality_processed
-income_inequality_raw <- tuesdata$income_inequality_raw
+income_inequality_processed <- tuesdata |>
+  pluck("income_inequality_processed")
+income_inequality_raw <- tuesdata |>
+  pluck("income_inequality_raw")
 ```
 
 ```{r}
@@ -57,6 +60,7 @@ The visual below shows the change in Gini Index across selected countries after 
 ```{r}
 #| message: false
 #| warning: false
+#| fig-alt: Bar charts showing year-to-year changes in the Gini index for Belgium, Iceland, Luxembourg, and the United States, faceted by country from roughly 1970–2023.
 #| fig-width: 25
 income_inequality_processed |>
   mutate(gini_change = gini_mi_eq - gini_dhi_eq) |>
@@ -66,7 +70,7 @@ income_inequality_processed |>
     geom_bar(stat = "identity") +
     facet_grid(~ Entity, scales = "free_y") +
     labs(
-      y = "Change in Gini Index",
+      y = "Gini Index Change",
       x = "Year",
       Title = "Yearly Gini Index Change Across Selected Countries"
     ) +

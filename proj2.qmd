@@ -90,6 +90,7 @@ style_data <- obama_tweets |>
 
 ```{r}
 #| message: false
+#| fig-alt: Bar chart comparing the proportion of Obama’s tweets that include a mention versus those that do not, showing far more tweets without mentions.
 mention_summary |>
   ggplot(aes(x = has_mention, y = proportion, fill = has_mention)) +
   geom_col() +
@@ -106,6 +107,7 @@ From this table, we can see that President Obama didn't really spend most of his
 
 ```{r}
 #| message: false
+#| fig-alt: Horizontal bar chart showing the top usernames mentioned by Obama, with @POTUS mentioned the most, followed by NASA, Pontifex, HillaryClinton, and others in decreasing order.
 user_proportions |>
   ggplot(aes(
     x = proportion, y = mentioned_user, fill = mentioned_user
@@ -124,6 +126,7 @@ Lets take a look at who enjoyed President Obama's mentions the most. I filtered 
 
 ```{r}
 #| message: false
+#| fig-alt: Bar chart showing the proportion of Obama’s tweets classified as exclamations, questions, both, or neither, with ‘neither’ making up the large majority.
 style_data |>
   ggplot(aes(x = sentence_type, y = proportion, fill = sentence_type)) +
   geom_col() +

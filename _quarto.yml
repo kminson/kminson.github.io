@@ -4,7 +4,7 @@ project:
 
 
 website:
-  title: "Minsong Kim's Project 1"
+  title: "Minsong Kim's Projects in R"
   navbar:
     left:
       - href: index.qmd

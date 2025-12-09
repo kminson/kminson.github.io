@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Minsong Kim">
-<meta name="dcterms.date" content="2025-11-12">
+<meta name="dcterms.date" content="2025-12-09">
 <meta name="description" content="Analysis of Bias and Ethical Dilemmas in Machine Risk Assessment Tools">
 
 <title>Bias in Machine Risk Assessment Tools – Minsong Kim’s Project 1</title>
@@ -146,8 +146,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ethical-dilemma-machine-risk-assessment-tools-in-criminal-justice" id="toc-ethical-dilemma-machine-risk-assessment-tools-in-criminal-justice" class="nav-link active" data-scroll-target="#ethical-dilemma-machine-risk-assessment-tools-in-criminal-justice">Ethical Dilemma: Machine Risk Assessment Tools in Criminal Justice</a>
+  <ul class="collapse">
+  <li><a href="#who-benefits-who-is-harmed" id="toc-who-benefits-who-is-harmed" class="nav-link" data-scroll-target="#who-benefits-who-is-harmed">Who Benefits? Who is harmed?</a></li>
+  <li><a href="#data-collection-and-quality" id="toc-data-collection-and-quality" class="nav-link" data-scroll-target="#data-collection-and-quality">Data Collection and Quality</a></li>
+  <li><a href="#use-beyond-its-intended-purpose" id="toc-use-beyond-its-intended-purpose" class="nav-link" data-scroll-target="#use-beyond-its-intended-purpose">Use Beyond Its Intended Purpose</a></li>
+  <li><a href="#use-of-race-and-sex-as-variables" id="toc-use-of-race-and-sex-as-variables" class="nav-link" data-scroll-target="#use-of-race-and-sex-as-variables">Use of Race and Sex as Variables</a></li>
+  <li><a href="#alignment-with-data-values-and-principles" id="toc-alignment-with-data-values-and-principles" class="nav-link" data-scroll-target="#alignment-with-data-values-and-principles">Alignment with Data Values and Principles</a></li>
+  </ul></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">Bibliography</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -176,7 +190,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 12, 2025</p>
+      <p class="date">December 9, 2025</p>
     </div>
   </div>
   
@@ -188,37 +202,38 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>First, find an ethical dilemma with a data science component. Please take on only one ethical dilemma, it is too difficult to compare multiple dilemmas in one short blog entry. There are many examples below, and within each example you should start with the reference provided and find at least one more article (possibly from another angle? or go find the privacy policy / user agreement if there is one!) to expand your understanding of the topic. It should be clear from your report what information came from which article. Feel free to choose an example different from those below.</p>
-<p>Describe the example / scenario as if to someone who is not at all familiar with the setting. In particular, it should be clear both what is the data science component and what is the ethical dilemma.</p>
-<p>The ethical data dilemma that I am exploring today has to do with the usage of machine risk-assessment tools in criminal justice. These tools, trained on large amounts of data, with unique algorithms that chooses how to interpret that data are used in all steps of the criminal justice systems in counties across the country, including the pretrial process, who should be given bonds, who should be incarcerated, who should be given parole, etc (ProPublica) The data component of this issue is about how these machine tools are created and maintained. Large amounts of data is needed to train these tools, and how creators choose which data to feed and train off of, how the data is interpreted, which data is given weight and which isn’t are all very relevant components of data science. The ethical dilemma is very integrally tied to the data science component of this issue. In their current state, these risk assessment tools often have little to no transparency as to how they assess data or compute risk scores for defendants. Additionally, their validity as an “unbiased” tool is contested, and they have the potential to very easily exacerbate and increase the systemic discrimination present in the today’s criminal justice system of the United states (Brookings).</p>
-<p>Respond to at least 4 of the items below (from the list of questions or the Data Values and Principles Manifesto). Four separate paragraphs that explain both the issue (e.g., consent) and how the issue played out in the data science example. Note: totally fine if there are items that were done well in your example.</p>
-<p>Given what you described in #3 (above), summarize by explaining why it matters. Who benefits? Who is neglected or harmed? Were the ethical violations in the interest of profit? Surveillance? Power?</p>
-<p>The for-profit company benefits. They are allowed to profit off a tool that could be harmful on a systemic level by citing trade-secret claims. The current oppressors and people who benefit from systemic discrimination benefits from this tool that exacerbates it. It matters because by adopting a tool that is reinforcing systemic discrimination, we are taking two steps back in trying to take one step forward. The ethical violations were because in the interest of profit. A lot of the criticisms would not apply to an open source project for a risk-assessment tool.</p>
-<p>How were the variables collected? Were they accurately recorded? Is there any missing data?</p>
-<p>We don’t know, and that is one of the primary concerns with the current state of these machine risk-assessment tools. There is little to no transparency with these tools and creators under the guise of trade-secrets (Brookings), and no accountability for the creators as such. Because these tools were created with the significant part of the purpose being profit, these creators are motivated to mask their process and ensure the public does not know how their algorithms work. However, that means these creators also face no accountability or responsibility for how they choose the data they feed and train their tool off of, nor for the systemic discrimination they may be exacerbating. Historical data of criminal justice often have extremely strong racial biases built in due to the flawed and discriminatory nature of the societal system of the time (Brookings).</p>
-<p>Is the data being used in unintended ways to the original study?</p>
-<p>The data is 100% being used in unintended ways to the original intention. One of the specific risk-assessment tools that is often brought up in these discussions is the Correctional Offender Management Profiling for Alternative Sanctions, or COMPAS. Tim Brennan, a former statistics professor and co-creator of COMPAS, has said that he did not intend for the tool to be used in courts, especially to decide punishment (ProPublica). Yet this is often how the tool is used, as it is used in this manner in multiple counties such as La Crosse County, Wisconsin (ProPublica).</p>
-<p>Should race be used as a variable? Is it a proxy for something else (e.g., amount of melanin in the skin, stress of navigating microaggressions, zip-code, etc.)? What about gender?</p>
-<p>I argue that race should not be a variable, but gender should be. The reason I argue that race should not be a variable in these risk-assessment tools is because there has yet to be a causational, peer-reviewed study that shows a significant difference between races in traits that could matter. When the burden of proof has not been sustained for the argument that race is a relevant factor for risk-assessment, I do not believe it should be a factor that is considered. In addition, there is also the issue that race is largely a social construct, especially how it is percieved in today’s society. How can something that is societally constructed, and can thus be changed with the social whims of society cause a biological difference between human individuals? The argument feels a little bit ridiculous to me. However, from what I read from the two articles, it feels like these risk-assessment tools are not utilizing race as a direct factor, but is indirectly measuring race by utilizing factors that are strongly correlated to race (ProPublica, Brookings). This feels like a much more difficult issue to me because these factors, such as poverty and joblessness to name two, are definitely factors that would strongly influence risk factors. Gender feels different because there are biological explanations for the statically higher rate of recriminalization for men compared to women (Brookings), such as higher testosterone.</p>
-<p>Data Values and Principles manifesto</p>
-<p>As data teams, we aim to…</p>
-<p>Use data to improve life for our users, customers, organizations, and communities.</p>
-<p>Create reproducible and extensible work.</p>
-<p>These tools, which are made and maintained by for profit companies, are not reproducible, nor is their documentation publicly extensive. I believe that to be a large issue. A tool such as this used in our criminal justice system, which has large societal impacts for generations, should not be maintained by a for-profit company, nor should their development be curtailed because of a for-profit motive, when it should be peer-reviewed and open source.</p>
-<p>Build teams with diverse ideas, backgrounds, and strengths.</p>
-<p>Prioritize the continuous collection and availability of discussions and metadata.</p>
-<p>Clearly identify the questions and objectives that drive each project and use to guide both planning and refinement.</p>
-<p>Be open to changing our methods and conclusions in response to new knowledge. Recognize and mitigate bias in ourselves and in the data we use.</p>
-<p>Present our work in ways that empower others to make better-informed decisions.</p>
-<p>Consider carefully the ethical implications of choices we make when using data, and the impacts of our work on individuals and society.</p>
-<p>Respect and invite fair criticism while promoting the identification and open discussion of errors, risks, and unintended consequences of our work.</p>
-<p>Protect the privacy and security of individuals represented in our data.</p>
-<p>Help others to understand the most useful and appropriate applications of data to solve real-world problems.</p>
-<p>Credit:</p>
-<p>Angwin, Julia, Jeff Larson, Lauren Kirchner, and Surya Mattu. “Machine Bias.” ProPublica, May 23, 2016. https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing.</p>
-<p>Denisa Gándara, Hadis Anahideh, Megan Stevenson Jennifer L. Doleac, Virginia Foggo John Villasenor, John R. Allen Darrell M. West, Ruby Bolaria Shifrin Rosanne Haggerty, Renée Rippberger Norman Eisen, and Michelle Du Josie Stewart. “Understanding Risk Assessment Instruments in Criminal Justice.” Brookings, June 27, 2023. https://www.brookings.edu/articles/understanding-risk-assessment-instruments-in-criminal-justice/.</p>
+<section id="ethical-dilemma-machine-risk-assessment-tools-in-criminal-justice" class="level1">
+<h1>Ethical Dilemma: Machine Risk Assessment Tools in Criminal Justice</h1>
+<p>The ethical data dilemma examined here centers on COMPAS (Correctional Offender Management Profiling for Alternative Sanctions), a widely used machine risk-assessment tool in the U.S. criminal justice system. COMPAS, trained on large amounts of data, uses unique algorithms that chooses how to interpret that data and is used in all steps of the criminal justice systems in counties across the country, including the pretrial process, in determining who should be given bonds, who should be incarcerated, who should be given parole, etc (Angwin et al.&nbsp;2016). The data component of this issue is about how this machine tool is created and maintained. Large amounts of data is needed to train COMPAS, and how the creator chooses which data to feed and train COMPAS off of, how the data is interpreted, which data is given weight and which isn’t are all very relevant components of data science. The ethical dilemma is very integrally tied to the data science component of this issue. In their current state, this risk assessment tool often have little to no transparency as to how they assess data or compute risk scores for defendants. Additionally, its validity as an “unbiased” tool is contested, and they have the potential to very easily exacerbate and increase the systemic discrimination present in the today’s criminal justice system of the United states (Chohlas-Wood 2020).</p>
+<section id="who-benefits-who-is-harmed" class="level2">
+<h2 class="anchored" data-anchor-id="who-benefits-who-is-harmed">Who Benefits? Who is harmed?</h2>
+<p>The for-profit company, Northpointe, benefits. They are allowed to profit off a tool that could be harmful on a systemic level by citing trade-secret claims (Angwin et al.&nbsp;2016). The current oppressors and people who benefit from systemic discrimination benefits from this tool that exacerbates it. It matters because by adopting a tool that is reinforcing systemic discrimination, we are taking two steps back in trying to take one step forward. The ethical violations were because in the interest of profit. A lot of the criticisms would not apply to an open source project for a risk-assessment tool.</p>
+</section>
+<section id="data-collection-and-quality" class="level2">
+<h2 class="anchored" data-anchor-id="data-collection-and-quality">Data Collection and Quality</h2>
+<p>We don’t know how the variables that go into calculating risk scores are selected, cleaned, or chosen, and that is one of the primary concerns with the current state of this machine risk-assessment tool. There is little to no transparency with COMPAS under the guise of trade-secrets (Chohlas-Wood 2020), and no accountability for the creators as such. Because these tools are being run by a for-profit entity, Northpointe, they are motivated to mask their process and ensure the public does not know how their algorithms work (Angwin et al.&nbsp;2016). However, that means Northpointe also face no accountability or responsibility for how they choose the data they feed and train their tool off of, nor for the systemic discrimination they may be exacerbating. Historical data of criminal justice often have extremely strong racial biases built in due to the flawed and discriminatory nature of the societal system of the time (Chohlas-Wood 2020).</p>
+</section>
+<section id="use-beyond-its-intended-purpose" class="level2">
+<h2 class="anchored" data-anchor-id="use-beyond-its-intended-purpose">Use Beyond Its Intended Purpose</h2>
+<p>The COMPAS tool is currently being used in ways contrary to the original intention. Tim Brennan, a former statistics professor and co-creator of COMPAS, has said that he did not intend for the tool to be used in courts, especially to decide punishment (Angwin et al.&nbsp;2016). Yet this is often how the tool is used, as it is used in this manner in multiple counties such as La Crosse County, Wisconsin (Angwin et al.&nbsp;2016).</p>
+</section>
+<section id="use-of-race-and-sex-as-variables" class="level2">
+<h2 class="anchored" data-anchor-id="use-of-race-and-sex-as-variables">Use of Race and Sex as Variables</h2>
+<p>COMPAS does not directly include race as an input, but it may indirectly capture racial information through correlated variables such as prior arrests or neighborhood factors. Including race is ethically problematic because race is a social construct with no biological basis (Morey 2023); using it risks reinforcing existing inequalities. In contrast, sex has and should be included because sex is a biological category with measurable differences between males and females. However, regardless of variable type, the absence of transparency about how these factors are weighted remains a major ethical concern.</p>
+</section>
+<section id="alignment-with-data-values-and-principles" class="level2">
+<h2 class="anchored" data-anchor-id="alignment-with-data-values-and-principles">Alignment with Data Values and Principles</h2>
+<p>One principle of responsible data science is the creation of reproducible and extensible work. The proprietary criminal justice tool named COMPAS violate this principle: its algorithms and documentation are inaccessible, preventing replication, peer review, or public oversight due to Northpointe’s profit motive. I believe this to be a large issue. A tool such as this used in our criminal justice system, which has large societal impacts for generations, should not be maintained by a for-profit company, nor should their development be curtailed because of a for-profit motive, when it should be peer-reviewed and open source.</p>
+</section>
+</section>
+<section id="bibliography" class="level1">
+<h1>Bibliography</h1>
+<p>Angwin, Julia, Jeff Larson, Surya Mattu, and Lauren Kirchner. 2016. “Machine Bias.” ProPublica. ProPublica. May 23, 2016. <a href="https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing" class="uri">https://www.propublica.org/article/machine-bias-risk-assessments-in-criminal-sentencing</a>.</p>
+<p>Chohlas-Wood, Alex . 2020. “Understanding Risk Assessment Instruments in Criminal Justice.” Brookings. 2020. <a href="https://www.brookings.edu/articles/understanding-risk-assessment-instruments-in-criminal-justice/" class="uri">https://www.brookings.edu/articles/understanding-risk-assessment-instruments-in-criminal-justice/</a>.</p>
+<p>Morey, Rajendra. 2023. “What Is the Biological Basis for Race - Implications for Psychiatric Genetic.” <em>European Neuropsychopharmacology</em> 75 (October): S47–47. <a href="https://doi.org/10.1016/j.euroneuro.2023.08.095" class="uri">https://doi.org/10.1016/j.euroneuro.2023.08.095</a>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

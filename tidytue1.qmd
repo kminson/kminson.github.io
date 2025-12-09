@@ -3,7 +3,7 @@ title: "Pokemon"
 description: |
   Analysis of Pokemon data from TidyTuesday
 author: Minsong Kim
-date: September 24, 2025
+date: December 9, 2025
 format: 
   html:
     code-fold: true
@@ -23,6 +23,7 @@ Every pokemon has a list of base stats that correspond to their abilities. A pok
 
 ```{r}
 #| message: false
+#| fig-alt: Scatterplot of Pokémon size index versus base stat total, with points colored by egg group. Each egg group has its own regression line, showing generally positive relationships between size and base stats.
 #| fig-width: 20
 #| fig-height: 10
 pokemon_df |>
@@ -45,6 +46,8 @@ pokemon_df |>
     axis.text = element_text(size = 30)
   )
 ```
+
+We can see that a positive relationship between the size index and base stat total exists for every egg group, but the steepness of the relationship changes depending on the egg group. I think on a design level, that makes sense. You want pokemon who are super big to be stronger than a pokemon the size of your hand generally; otherwise the design contradicts the reality of the strength of the pokemon, as we humans expect big things to be proportionally stronger than small things.
 
 Credit:\
 Dataset Original Source:
